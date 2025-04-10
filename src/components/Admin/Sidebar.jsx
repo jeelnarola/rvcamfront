@@ -118,7 +118,7 @@ function Sidebar() {
                   </NavLink>
                </li>
                <li>
-                  <NavLink to="/AddStaff" className={({ isActive }) => `mt-2 flex p-2 rounded-lg group ${isActive
+                  <NavLink to="AddStaff" className={({ isActive }) => `mt-2 flex p-2 rounded-lg group ${isActive
                      ? 'bg-gray-200 dark:bg-blue-600  dark:text-white'
                      : 'text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'
                      }`
