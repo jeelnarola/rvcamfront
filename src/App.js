@@ -8,6 +8,7 @@ import Adminroot from './components/Admin/Adminroot';
 import Profile from './components/Profile';
 import Course from './components/Admin/Course';
 import Subject from './components/Admin/Subject';
+import AddStaff from './components/Admin/AddStaff';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
     <Route path="Profile" element={<Profile />} />
     <Route path="Course" element={<Course />} />
     <Route path="Subject" element={<Subject />} />
+    <Route path="AddStaff" element={<AddStaff />} />
   </Route>
 </Routes>
 
