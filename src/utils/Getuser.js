@@ -1,6 +1,5 @@
 const Getuser = () =>{
-  const user  = JSON.parse(localStorage.getItem('login'));
-  console.log(user); // Jeel
+  const user = (localStorage.getItem('adminToken'));
   return user
 }
 export default Getuser
