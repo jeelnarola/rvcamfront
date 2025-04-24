@@ -1,8 +1,10 @@
 import React from 'react'
 import Sidebar from './Sidebar'
 import Login from '../Auth/Login'
+import { useSelector } from 'react-redux';
 
 export default function Dashboard() {
+ 
    return (
       <div>
          <section>

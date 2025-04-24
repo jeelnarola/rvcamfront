@@ -1,6 +1,39 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux';
+import CourseMange from './CourseMange';
+import { useNavigate } from 'react-router-dom';
 
 function Course() {
+    const [course,setCourse] = useState("")
+    const navigate = useNavigate();
+    const state = useSelector((state) => state.auth?.user);
+    const handleCourse = async() =>{
+        alert("ojk")
+        try {
+            const res = await axios.post('https://rvcam-production.up.railway.app/api/course/add', {
+                courseName:course
+            },{
+                headers: {
+                  'Authorization': `Bearer ${state.token}`,
+                  'Content-Type': 'application/json'
+                }});
+      
+            // const { token } = res.data;
+            console.log("data",res.data)
+            
+            alert('Login successful');
+      
+          } catch (error) {
+            if (error.response) {
+              console.error('Server Error:', error.response.data);
+              alert(error.response.data.message || 'Invalid credentials');
+            } else {
+              console.error('Login failed:', error.message);
+              alert('Something went wrong');
+            }
+          }
+    }
     return (
         <>
             <section>
@@ -11,22 +44,22 @@ function Course() {
                      <div class="p-5 flex justify-between">
                         <h4 class="text-blue-600 font-bold lg:text-xl">College Management System</h4>
                         <div className="flex text-black">
-                        <h4 class="font-semibold cursor-pointer lg:text-xl"> Add </h4>
+                        <h4 class="font-semibold cursor-pointer lg:text-xl" onClick={()=>navigate("/Course")}> Add </h4>
                         <h4 class="font-semibold cursor-pointer lg:text-xl px-2"> ||  </h4>
-                        <h4 class="font-semibold cursor-pointer lg:text-xl">Manage </h4>
+                        <h4 class="font-semibold cursor-pointer lg:text-xl" onClick={()=>navigate("/admin/CourseManage")}>Manage </h4>
                         </div>
                      </div>
                   </div>
                         <div id="showHideCourse" >
                             <div class="w-11/12 m-2 mx-auto mt-7 bg-white drop-shadow-md pb-5">
                                 <div class="bg-black p-2">
-                                    <h1 class="text-white font-semibold tracking-widest uppercase" id="AddCourseTitle">Add Course</h1>
+                                    <h1 class="text-white font-semibold tracking-widest uppercase" id="AddCourseTitle">Add </h1>
                                 </div>
-                                <form action="">
+                                <form action="" onSubmit={(e) => e.preventDefault()}>
                                 <div class="flex flex-col m-4">
                                         <label for="" class="mb-2">Course Name :</label>
-                                        <input type="text" class="border border-black px-4 mb-4" id="courseName" name="Course"/>
-                                            <input type="submit" value="Add Course" class="bg-blue-600 p-3 rounded-sm block mx-auto text-white hover:border hover:border-black hover:bg-transparent  hover:text-black hover:drop-shadow-2xl transition-all cursor-pointer" id="addCoursebtn"/>
+                                        <input type="text" class="border border-black px-4 mb-4" id="courseName" name="Course" value={course} onChange={(e) => setCourse(e.target.value)} />
+                                        <input type="submit" onClick={handleCourse} value="Add Course" class="bg-blue-600 p-3 rounded-sm block mx-auto text-white hover:border hover:border-black hover:bg-transparent  hover:text-black hover:drop-shadow-2xl transition-all cursor-pointer" id="addCoursebtn"/>
                                     </div>
                                 </form>
                             </div>
