@@ -1,9 +1,41 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 import { MdDelete } from "react-icons/md";
 import { PiNotePencilFill } from "react-icons/pi";
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 function CourseMange() {
     const navigate = useNavigate();
+    const [data, setData] = useState([])
+    const [checkedRows, setCheckedRows] = useState({});
+    const checkedCount = Object.values(checkedRows).filter(Boolean).length;
+    const state = useSelector((state) => state.auth?.user);
+    const getCourse = async () => {
+        try {
+            const res = await axios.get('https://rvcam-production.up.railway.app/api/course/show  ', {
+                headers: {
+                    'Authorization': `Bearer ${state.token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            console.log("data1", ...res.data.data)
+            setData(prev => [...res.data.data]);
+
+            // https://rvcam-production.up.railway.app/api/course/show
+        } catch (error) {
+            if (error.response) {
+                console.error('Server Error:', error.response.data);
+                alert(error.response.data.message || 'Invalid credentials');
+            } else {
+                console.error('Login failed:', error.message);
+                alert('Something went wrong');
+            }
+        }
+    }
+    useEffect(() => {
+        getCourse()
+    }, [])
+    // console.log(Object.keys(data).length >= 1, "data");
 
     return (
         <div>
@@ -15,7 +47,7 @@ function CourseMange() {
                             <div class="p-5 flex justify-between">
                                 <h4 class="text-blue-600 font-bold lg:text-xl">College Management System</h4>
                                 <div className="flex text-black">
-                                    <h4 class="font-semibold cursor-pointer lg:text-xl"  onClick={()=>navigate("/admin/course")}> Add </h4>
+                                    <h4 class="font-semibold cursor-pointer lg:text-xl" onClick={() => navigate("/admin/course")}> Add </h4>
                                     <h4 class="font-semibold cursor-pointer lg:text-xl px-2"> ||  </h4>
                                     <h4 class="font-semibold cursor-pointer lg:text-xl">Manage </h4>
                                 </div>
@@ -29,7 +61,6 @@ function CourseMange() {
                                 <table class="table-auto  my-5 border mx-5 p-1 border-gray-900 w-[700px] xl:w-[90%]  text-left">
                                     <thead >
                                         <tr>
-                                            {/* <input type="checkbox" /> Master checkbox if needed */}
                                             <th class="border border-gray-300 p-2 text-center"></th>
                                             <th class="border border-gray-300 p-2 text-center">Sr.No</th>
                                             <th class="border border-gray-300 text-center">Name</th>
@@ -37,55 +68,137 @@ function CourseMange() {
                                         </tr>
                                     </thead>
                                     <tbody className=''>
+                                        {
 
-                                        <tr>
-                                            <td className="border border-gray-300 w-[0%] px-2">
-                                                <input type="checkbox" className='' /> </td>{/* Master checkbox if needed */}
-                                            <td className="border border-gray-300 w-[20%] px-2">1</td>
-                                            <td className="border border-gray-300 w-[20%] px-2">Jeel</td>
-                                            <td className="border border-gray-300 w-[10%] px-2">
-                                                <tr>
-                                                    <td className='p-1 w-[10%] px-2'>
-                                                        <div className="flex items-center justify-center">
-                                                            <button className="bg-green-600 text-black p-1 px-8 mx-4 rounded-lg flex items-center gap-2">
-                                                                <PiNotePencilFill />
-                                                                <p>Edit</p>
-                                                            </button>
-                                                            <button className="bg-red-600 text-white p-1 px-8 mx-4 rounded-lg flex items-center gap-2">
-                                                                <MdDelete />
-                                                                <p>Remove</p>
-                                                            </button>
-                                                        </div>
+                                            data.map((ele, i) => {
+                                                const isChecked = checkedRows[i] || false;
+                                                //    ele.map((el)=>{
+                                                return <tr>
+                                                    <td className="border border-gray-300 w-[0%] px-2">
+                                                        <input type="checkbox" className='' checked={!!checkedRows[i]}
+                                                            onChange={() =>
+                                                                setCheckedRows((prev) => ({
+                                                                    ...prev,
+                                                                    [i]: !prev[i],
+                                                                }))
+                                                            } />
+                                                    </td>
+                                                    <td className="border border-gray-300 w-[20%] px-2">{i + 1}</td>
+                                                    <td className="border border-gray-300 w-[20%] px-2">{ele.courseName}</td>
+                                                    <td className="border border-gray-300 w-[10%] px-2">
+                                                        <tr>
+                                                            <td className='p-1 w-[10%] px-2'>
+                                                                <div className="flex items-center justify-center">
+                                                                    <button disabled={!isChecked} className="bg-green-600 text-black p-1 px-8 mx-4 rounded-lg flex items-center gap-2">
+                                                                        <PiNotePencilFill />
+                                                                        <p>Edit</p>
+                                                                    </button>
+                                                                    <button
+                                                                        disabled={!isChecked}
+                                                                        className={`p-1 px-8 mx-4 rounded-lg flex items-center gap-2 ${isChecked
+                                                                            ? "bg-red-600 text-white"
+                                                                            : "bg-gray-300 text-gray-600 cursor-not-allowed"
+                                                                            }`}
+                                                                    >
+                                                                        <MdDelete />
+                                                                        <p>Remove</p>
+                                                                    </button>
+                                                                </div>
 
+                                                            </td>
+                                                        </tr>
                                                     </td>
                                                 </tr>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td className="border border-gray-300 w-[0%] px-2">
-                                                <input type="checkbox" className='' /> </td>{/* Master checkbox if needed */}
-                                            <td className="border border-gray-300 w-[20%] px-2">1</td>
-                                            <td className="border border-gray-300 w-[20%] px-2">Jeel</td>
-                                            <td className="border border-gray-300 w-[10%] px-2">
-                                                <tr>
-                                                    <td className='p-1 w-[10%] px-2'>
-                                                        <div className="flex items-center justify-center">
-                                                            <button className="bg-green-600 text-black p-1 px-8 mx-4 rounded-lg flex items-center gap-2">
-                                                                <PiNotePencilFill />
-                                                                <p>Edit</p>
-                                                            </button>
-                                                            <button className="bg-red-600 text-white p-1 px-8 mx-4 rounded-lg flex items-center gap-2">
-                                                                <MdDelete />
-                                                                <p>Remove</p>
-                                                            </button>
-                                                        </div>
+                                                //    })
 
-                                                    </td>
-                                                </tr>
-                                            </td>
-                                        </tr>
+                                            })
+                                        }
                                     </tbody>
                                 </table>
+                                 <button
+                                     disabled={checkedCount >= 2}
+                                     className={`p-1 px-8 mx-4 rounded-lg flex items-center gap-2 ${checkedCount >= 2
+                                        ? "bg-red-600 text-white cursor-pointer"
+                                        : "hidden"
+                                        }`}
+                                >
+                                    <MdDelete />
+                                    <p>Remove All</p>
+                                </button>
+
+
+                                {/* {
+                                    data && data.map((ele) => {
+
+                                        console.log(ele.courseName);
+                                    }
+                                        
+                                           return`
+                                        <table class="table-auto  my-5 border mx-5 p-1 border-gray-900 w-[700px] xl:w-[90%]  text-left">
+                                            <thead >
+                                                <tr>
+                                                    <th class="border border-gray-300 p-2 text-center"></th>
+                                                    <th class="border border-gray-300 p-2 text-center">Sr.No</th>
+                                                    <th class="border border-gray-300 text-center">Name</th>
+                                                    <th class="border border-gray-300 text-center">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className=''>
+
+                                                <tr>
+                                                    <td className="border border-gray-300 w-[0%] px-2">
+                                                        <input type="checkbox" className='' /> 
+                                                    </td>
+                                                    <td className="border border-gray-300 w-[20%] px-2">{index + 1}</td>
+                                                    <td className="border border-gray-300 w-[20%] px-2">{ele.courseName}</td>
+                                                    <td className="border border-gray-300 w-[10%] px-2">
+                                                        <tr>
+                                                            <td className='p-1 w-[10%] px-2'>
+                                                                <div className="flex items-center justify-center">
+                                                                    <button className="bg-green-600 text-black p-1 px-8 mx-4 rounded-lg flex items-center gap-2">
+                                                                        <PiNotePencilFill />
+                                                                        <p>Edit</p>
+                                                                    </button>
+                                                                    <button className="bg-red-600 text-white p-1 px-8 mx-4 rounded-lg flex items-center gap-2">
+                                                                        <MdDelete />
+                                                                        <p>Remove</p>
+                                                                    </button>
+                                                                </div>
+
+                                                            </td>
+                                                        </tr>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="border border-gray-300 w-[0%] px-2">
+                                                        <input type="checkbox" className='' /> </td>
+                                                    <td className="border border-gray-300 w-[20%] px-2">1</td>
+                                                    <td className="border border-gray-300 w-[20%] px-2">Jeel</td>
+                                                    <td className="border border-gray-300 w-[10%] px-2">
+                                                        <tr>
+                                                            <td className='p-1 w-[10%] px-2'>
+                                                                <div className="flex items-center justify-center">
+                                                                    <button className="bg-green-600 text-black p-1 px-8 mx-4 rounded-lg flex items-center gap-2">
+                                                                        <PiNotePencilFill />
+                                                                        <p>Edit</p>
+                                                                    </button>
+                                                                    <button className="bg-red-600 text-white p-1 px-8 mx-4 rounded-lg flex items-center gap-2">
+                                                                        <MdDelete />
+                                                                        <p>Remove</p>
+                                                                    </button>
+                                                                </div>
+
+                                                            </td>
+                                                        </tr>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                           `
+
+                                    )
+                                } */}
+
                             </div>
                         </div>
                     </div>
