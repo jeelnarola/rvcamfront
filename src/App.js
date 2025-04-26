@@ -30,6 +30,7 @@ function App() {
         <Route path="Profile" element={<Profile />} />
         <Route path="Course" element={<Course />} />
         <Route path="CourseManage" element={<CourseMange />} />
+        <Route path="CourseUpdate" element={<Course />} />
         <Route path="Subject" element={<Subject />} />
         <Route path="AddStaff" element={<AddStaff />} />
         <Route path="*" element={<Page404 />} />

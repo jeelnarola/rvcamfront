@@ -8,6 +8,7 @@ function CourseMange() {
     const navigate = useNavigate();
     const [data, setData] = useState([])
     const [checkedRows, setCheckedRows] = useState({});
+    const [CheckedId, setCheckedId] = useState([]);
     const checkedCount = Object.values(checkedRows).filter(Boolean).length;
     const state = useSelector((state) => state.auth?.user);
     const getCourse = async () => {
@@ -18,7 +19,7 @@ function CourseMange() {
                     'Content-Type': 'application/json'
                 }
             });
-            console.log("data1", ...res.data.data)
+
             setData(prev => [...res.data.data]);
 
             // https://rvcam-production.up.railway.app/api/course/show
@@ -32,11 +33,76 @@ function CourseMange() {
             }
         }
     }
+    const checkbox = (e, i, ele) => {
+        console.log(ele);
+
+        setCheckedId((prev) => {
+            if (e.target.checked) {
+                return [...prev, ele];
+            } else {
+                return prev.filter((id) => id !== ele);
+            }
+        });
+
+    }
+
+
     useEffect(() => {
         getCourse()
-    }, [])
-    // console.log(Object.keys(data).length >= 1, "data");
+        console.log(state.token, "updated CheckedId array");
+    }, [CheckedId])
 
+    const couserdelete = async (ele) => {
+        const idFilter = CheckedId.filter((id) => id === ele)
+        console.log(state.token);
+
+        if (idFilter.length === 0) {
+            try {
+                const res = await axios.delete('https://rvcam-production.up.railway.app/api/course/delete', {
+                      data:{ids: CheckedId} ,
+                    headers: {
+                      'authorization': `Bearer ${state.token}`,
+                      'Content-Type': 'application/json'
+                    }
+                  });
+
+                console.log("data", res.data)
+                getCourse()
+                alert('Login successful');
+            } catch (error) {
+                if (error.response) {
+                    console.error('Server Error:', error.response.data);
+                    alert(error.response.data.message || 'Invalid credentials');
+                } else {
+                    console.error('Login failed:', error.message);
+                    alert('Something went wrong');
+                }
+            }
+        } else {
+            try {
+                const res = await axios.delete('https://rvcam-production.up.railway.app/api/course/delete', {
+                    data:{ids: CheckedId} ,
+                  headers: {
+                    'authorization': `Bearer ${state.token}`,
+                    'Content-Type': 'application/json'
+                  }
+                });
+                console.log("data", res.data)
+                getCourse()
+                alert('Login successful');
+            } catch (error) {
+                if (error.response) {
+                    console.error('Server Error:', error.response.data);
+                    alert(error.response.data.message || 'Invalid credentials');
+                } else {
+                    console.error('Login failed:', error.message);
+                    alert('Something went wrong');
+                }
+            }
+        }
+
+
+    }
     return (
         <div>
             <section>
@@ -71,16 +137,17 @@ function CourseMange() {
                                         {
 
                                             data.map((ele, i) => {
-                                                const isChecked = checkedRows[i] || false;
+                                                // console.log();
+
+                                                const isChecked = CheckedId.includes(ele._id) || false;
                                                 //    ele.map((el)=>{
                                                 return <tr>
-                                                    <td className="border border-gray-300 w-[0%] px-2">
-                                                        <input type="checkbox" className='' checked={!!checkedRows[i]}
-                                                            onChange={() =>
-                                                                setCheckedRows((prev) => ({
-                                                                    ...prev,
-                                                                    [i]: !prev[i],
-                                                                }))
+                                                    <td className="border border-gray-300 w-[1%] px-2">
+                                                        <input type="checkbox" className='' checked={CheckedId.includes(ele._id)}
+                                                            onChange={(e) => {
+                                                                checkbox(e, i, ele._id)
+                                                            }
+
                                                             } />
                                                     </td>
                                                     <td className="border border-gray-300 w-[20%] px-2">{i + 1}</td>
@@ -89,12 +156,13 @@ function CourseMange() {
                                                         <tr>
                                                             <td className='p-1 w-[10%] px-2'>
                                                                 <div className="flex items-center justify-center">
-                                                                    <button disabled={!isChecked} className="bg-green-600 text-black p-1 px-8 mx-4 rounded-lg flex items-center gap-2">
+                                                                    <button onClick={() => navigate("/admin/CourseUpdate", { state: { id: ele } })} className="bg-green-600 text-black p-1 px-8 mx-4 rounded-lg flex items-center gap-2">
                                                                         <PiNotePencilFill />
                                                                         <p>Edit</p>
                                                                     </button>
                                                                     <button
                                                                         disabled={!isChecked}
+                                                                        onClick={() => couserdelete(ele._id)}
                                                                         className={`p-1 px-8 mx-4 rounded-lg flex items-center gap-2 ${isChecked
                                                                             ? "bg-red-600 text-white"
                                                                             : "bg-gray-300 text-gray-600 cursor-not-allowed"
@@ -115,11 +183,12 @@ function CourseMange() {
                                         }
                                     </tbody>
                                 </table>
-                                 <button
-                                     disabled={checkedCount >= 2}
-                                     className={`p-1 px-8 mx-4 rounded-lg flex items-center gap-2 ${checkedCount >= 2
+                                <button
+                                    disabled={CheckedId.length < 2}
+                                    onClick={() => couserdelete("deletall")}
+                                    className={`p-1 px-8 mx-4 rounded-lg flex items-center gap-2 ${CheckedId.length >= 2
                                         ? "bg-red-600 text-white cursor-pointer"
-                                        : "hidden"
+                                        : "bg-gray-400 text-gray-600 cursor-not-allowed"
                                         }`}
                                 >
                                     <MdDelete />
