@@ -156,7 +156,7 @@ function CourseMange() {
                                                         <tr>
                                                             <td className='p-1 w-[10%] px-2'>
                                                                 <div className="flex items-center justify-center">
-                                                                    <button disabled={!isChecked} className="bg-green-600 text-black p-1 px-8 mx-4 rounded-lg flex items-center gap-2">
+                                                                    <button onClick={() => navigate("/admin/CourseUpdate", { state: { id: ele } })} className="bg-green-600 text-black p-1 px-8 mx-4 rounded-lg flex items-center gap-2">
                                                                         <PiNotePencilFill />
                                                                         <p>Edit</p>
                                                                     </button>
