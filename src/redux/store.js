@@ -1,5 +1,7 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit'
 import authReducer from "./authSlice ";
+import courseReducer from "./courseSlice";
+import subjectReducer from "./subjectSlice";
 // import postSlice from './postSlice.js'
 
 import {
@@ -22,10 +24,13 @@ import {
 
   const rootReducer = combineReducers({
     auth:authReducer,
+    course:courseReducer,
+    subject:subjectReducer
     // post:postSlice
   })
   
 export  const persistedReducer = persistReducer(persistConfig, rootReducer)
+
 const store =configureStore({
     reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>

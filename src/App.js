@@ -13,6 +13,7 @@ import Sidebar from './components/Admin/Sidebar';
 import OneTimeLogin from './utils/OnetimeLogin';
 import CourseMange from './components/Admin/CourseMange';
 import Page404 from './components/Page404';
+import SubjectManage from './components/Admin/SubjectManage';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route path="CourseManage" element={<CourseMange />} />
         <Route path="CourseUpdate" element={<Course />} />
         <Route path="Subject" element={<Subject />} />
+        <Route path="SubjectManage" element={<SubjectManage />} />
         <Route path="AddStaff" element={<AddStaff />} />
         <Route path="*" element={<Page404 />} />
       </Route>
