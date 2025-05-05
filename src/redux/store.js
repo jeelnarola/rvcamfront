@@ -2,7 +2,7 @@ import {combineReducers, configureStore} from '@reduxjs/toolkit'
 import authReducer from "./authSlice ";
 import courseReducer from "./courseSlice";
 import subjectReducer from "./subjectSlice";
-// import postSlice from './postSlice.js'
+import postReducer from './postAPI'
 
 import {
     persistReducer,
@@ -25,7 +25,8 @@ import {
   const rootReducer = combineReducers({
     auth:authReducer,
     course:courseReducer,
-    subject:subjectReducer
+    subject:subjectReducer,
+    post:postReducer
     // post:postSlice
   })
   

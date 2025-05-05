@@ -12,8 +12,6 @@ export const feSubject = createAsyncThunk(
                 'Content-Type': 'application/json'
             }
         });
-        console.log("feSubject",response);
-        
         return response.data;
     } catch (error) {
         console.error("Error during login:", error);

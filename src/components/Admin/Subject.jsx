@@ -21,7 +21,7 @@ function Subject() {
     try {
       const res = await axios.get(`${API.fixAPI}/api/course/show`, {
         headers: {
-          'Authorization': `Bearer ${state.token}`,
+          'Authorization': `Bearer ${state.data.token}`,
           'Content-Type': 'application/json'
         }
       });
@@ -47,7 +47,7 @@ function Subject() {
     try {
       const res = await axios.post(`${API.fixAPI}/api/subject/add`,formData, {
           headers: {
-              'authorization': `Bearer ${state.token}`,
+              'authorization': `Bearer ${state.data.token}`,
               'Content-Type': 'application/json'
           }
       },{ withCredentials: true });

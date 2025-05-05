@@ -14,6 +14,7 @@ import OneTimeLogin from './utils/OnetimeLogin';
 import CourseMange from './components/Admin/CourseMange';
 import Page404 from './components/Page404';
 import SubjectManage from './components/Admin/SubjectManage';
+import ManageStaff from './components/Admin/ManageStaff';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
         <Route path="Subject" element={<Subject />} />
         <Route path="SubjectManage" element={<SubjectManage />} />
         <Route path="AddStaff" element={<AddStaff />} />
+        <Route path="ManageStaff" element={<ManageStaff />} />
         <Route path="*" element={<Page404 />} />
       </Route>
     </Route>

@@ -11,15 +11,15 @@ function Course() {
     const [course, setCourse] = useState("")
     const navigate = useNavigate();
     const state = useSelector((state) => state.auth?.user);
+
     const handleCourse = async (e) => {
         if (e.target.value === "Update Course") {
-            alert("up")
             try {
                 const res = await axios.patch(`${API.fixAPI}/api/course/update/${id}`, {
                     courseName: course
                 }, {
                     headers: {
-                        'authorization': `Bearer ${state.token}`,
+                        'authorization': `Bearer ${state.data.token}`,
                         'Content-Type': 'application/json'
                     }
                 });
@@ -40,7 +40,7 @@ function Course() {
                     courseName: course
                 }, {
                     headers: {
-                        'authorization': `Bearer ${state.token}`,
+                        'authorization': `Bearer ${state.data.token}`,
                         'Content-Type': 'application/json'
                     }
                 });

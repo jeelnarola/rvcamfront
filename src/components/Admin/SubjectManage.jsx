@@ -22,8 +22,6 @@ function SubjectManage() {
                 }
             });
             setData(prev => [...res.data.data]);
-
-            // https://rvcam-production.up.railway.app/api/course/show
         } catch (error) {
             if (error.response) {
                 console.error('Server Error:', error.response.data);
