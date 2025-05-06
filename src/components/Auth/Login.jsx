@@ -17,6 +17,7 @@ function Login () {
   }
   const handelSubmit = async () => {
     try {
+      alert("l")
       const result = await dispatch(fetchSubject({ email, password })).unwrap();
     
     } catch (err) {

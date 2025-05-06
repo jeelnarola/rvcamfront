@@ -40,6 +40,7 @@ function App() {
         <Route path="*" element={<Page404 />} />
       </Route>
     </Route>
+   
   </Routes>
     </BrowserRouter>
   // </>

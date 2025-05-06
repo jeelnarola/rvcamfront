@@ -7,6 +7,7 @@ export const feSubject = createAsyncThunk(
     async (token, thunkAPI) => {
       try {
         const response = await axios.get(`${API.fixAPI}/api/subject/show`, {
+            credentials: true,
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
