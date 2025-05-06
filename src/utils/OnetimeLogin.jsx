@@ -6,7 +6,6 @@ import Login from '../components/Auth/Login';
 function OnetimeLogin() {
     const navigate = useNavigate();
     const getUser = Getuser()
-    console.log("get",getUser);
     useEffect   (() => {
         // Check if the user has logged in (check token or flag in localStorage)
         if (localStorage.getItem('adminToken')) {

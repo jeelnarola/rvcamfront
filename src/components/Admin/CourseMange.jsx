@@ -4,6 +4,7 @@ import { MdDelete } from "react-icons/md";
 import { PiNotePencilFill } from "react-icons/pi";
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import API from '../../API';
 function CourseMange() {
     const navigate = useNavigate();
     const [data, setData] = useState([])
@@ -13,7 +14,7 @@ function CourseMange() {
     const state = useSelector((state) => state.auth?.user);
     const getCourse = async () => {
         try {
-            const res = await axios.get('https://rvcam-production.up.railway.app/api/course/show  ', {
+            const res = await axios.get(`${API.fixAPI}/api/course/show`, {
                 headers: {
                     'Authorization': `Bearer ${state.token}`,
                     'Content-Type': 'application/json'
@@ -34,8 +35,6 @@ function CourseMange() {
         }
     }
     const checkbox = (e, i, ele) => {
-        console.log(ele);
-
         setCheckedId((prev) => {
             if (e.target.checked) {
                 return [...prev, ele];
@@ -49,24 +48,21 @@ function CourseMange() {
 
     useEffect(() => {
         getCourse()
-        console.log(state.token, "updated CheckedId array");
     }, [CheckedId])
 
     const couserdelete = async (ele) => {
         const idFilter = CheckedId.filter((id) => id === ele)
-        console.log(state.token);
 
         if (idFilter.length === 0) {
             try {
-                const res = await axios.delete('https://rvcam-production.up.railway.app/api/course/delete', {
-                      data:{ids: CheckedId} ,
+                const res = await axios.delete(`${API.fixAPI}/api/course/delete`, {
+                    data: { ids: CheckedId },
                     headers: {
-                      'authorization': `Bearer ${state.token}`,
-                      'Content-Type': 'application/json'
+                        'authorization': `Bearer ${state.token}`,
+                        'Content-Type': 'application/json'
                     }
-                  });
+                });
 
-                console.log("data", res.data)
                 getCourse()
                 alert('Login successful');
             } catch (error) {
@@ -80,14 +76,13 @@ function CourseMange() {
             }
         } else {
             try {
-                const res = await axios.delete('https://rvcam-production.up.railway.app/api/course/delete', {
-                    data:{ids: CheckedId} ,
-                  headers: {
-                    'authorization': `Bearer ${state.token}`,
-                    'Content-Type': 'application/json'
-                  }
+                const res = await axios.delete(`${API.fixAPI}/api/course/delete`, {
+                    data: { ids: CheckedId },
+                    headers: {
+                        'authorization': `Bearer ${state.token}`,
+                        'Content-Type': 'application/json'
+                    }
                 });
-                console.log("data", res.data)
                 getCourse()
                 alert('Login successful');
             } catch (error) {
@@ -137,8 +132,6 @@ function CourseMange() {
                                         {
 
                                             data.map((ele, i) => {
-                                                // console.log();
-
                                                 const isChecked = CheckedId.includes(ele._id) || false;
                                                 //    ele.map((el)=>{
                                                 return <tr>
@@ -194,80 +187,6 @@ function CourseMange() {
                                     <MdDelete />
                                     <p>Remove All</p>
                                 </button>
-
-
-                                {/* {
-                                    data && data.map((ele) => {
-
-                                        console.log(ele.courseName);
-                                    }
-                                        
-                                           return`
-                                        <table class="table-auto  my-5 border mx-5 p-1 border-gray-900 w-[700px] xl:w-[90%]  text-left">
-                                            <thead >
-                                                <tr>
-                                                    <th class="border border-gray-300 p-2 text-center"></th>
-                                                    <th class="border border-gray-300 p-2 text-center">Sr.No</th>
-                                                    <th class="border border-gray-300 text-center">Name</th>
-                                                    <th class="border border-gray-300 text-center">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody className=''>
-
-                                                <tr>
-                                                    <td className="border border-gray-300 w-[0%] px-2">
-                                                        <input type="checkbox" className='' /> 
-                                                    </td>
-                                                    <td className="border border-gray-300 w-[20%] px-2">{index + 1}</td>
-                                                    <td className="border border-gray-300 w-[20%] px-2">{ele.courseName}</td>
-                                                    <td className="border border-gray-300 w-[10%] px-2">
-                                                        <tr>
-                                                            <td className='p-1 w-[10%] px-2'>
-                                                                <div className="flex items-center justify-center">
-                                                                    <button className="bg-green-600 text-black p-1 px-8 mx-4 rounded-lg flex items-center gap-2">
-                                                                        <PiNotePencilFill />
-                                                                        <p>Edit</p>
-                                                                    </button>
-                                                                    <button className="bg-red-600 text-white p-1 px-8 mx-4 rounded-lg flex items-center gap-2">
-                                                                        <MdDelete />
-                                                                        <p>Remove</p>
-                                                                    </button>
-                                                                </div>
-
-                                                            </td>
-                                                        </tr>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="border border-gray-300 w-[0%] px-2">
-                                                        <input type="checkbox" className='' /> </td>
-                                                    <td className="border border-gray-300 w-[20%] px-2">1</td>
-                                                    <td className="border border-gray-300 w-[20%] px-2">Jeel</td>
-                                                    <td className="border border-gray-300 w-[10%] px-2">
-                                                        <tr>
-                                                            <td className='p-1 w-[10%] px-2'>
-                                                                <div className="flex items-center justify-center">
-                                                                    <button className="bg-green-600 text-black p-1 px-8 mx-4 rounded-lg flex items-center gap-2">
-                                                                        <PiNotePencilFill />
-                                                                        <p>Edit</p>
-                                                                    </button>
-                                                                    <button className="bg-red-600 text-white p-1 px-8 mx-4 rounded-lg flex items-center gap-2">
-                                                                        <MdDelete />
-                                                                        <p>Remove</p>
-                                                                    </button>
-                                                                </div>
-
-                                                            </td>
-                                                        </tr>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                           `
-
-                                    )
-                                } */}
-
                             </div>
                         </div>
                     </div>

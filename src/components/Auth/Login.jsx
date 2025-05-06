@@ -2,40 +2,29 @@ import React, { useState } from 'react'
 import user from '../../utils/Getuser'
 import Getuser from '../../utils/Getuser'
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { login } from '../../redux/authSlice ';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchSubject, login } from '../../redux/authSlice ';
+import API from '../../API';
 
 function Login () {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch("")
-  // const [email, setEmail] = useState('');
-  // const [password, setPassword] = useState('');
-
-  const handleLogin = async () => {
-    try {
-      const res = await axios.post('https://rvcam-production.up.railway.app/api/auth/login', {
-        email,
-        password
-      });
-
-      const { token } = res.data;
-      dispatch(login(res.data))
-      console.log("data",res.data.user)
-      localStorage.setItem('adminToken', token);
-      alert('Login successful');
-      window.location.href = '/Admin/dashboard';
-
-    } catch (error) {
-      if (error.response) {
-        console.error('Server Error:', error.response.data);
-        alert(error.response.data.message || 'Invalid credentials');
-      } else {
-        console.error('Login failed:', error.message);
-        alert('Something went wrong');
-      }
-    }
+  const state1 = useSelector((state) => state?.auth);
+  if(state1.isDone){
+    localStorage.setItem('adminToken', state1?.user?.data?.token);
+    window.location.href = '/Admin/dashboard';
   }
+  const handelSubmit = async () => {
+    try {
+      const result = await dispatch(fetchSubject({ email, password })).unwrap();
+    
+    } catch (err) {
+      alert(err || "Login failed");
+    }
+  };
+  
+  
   return (
     <>
         <section class="w-full absolute top-0 left-0 z-50">
@@ -56,7 +45,7 @@ function Login () {
                       <input type="text"  value={password}
         onChange={(e) => setPassword(e.target.value)} class="block p-3 border border-black focus:border-red-900 w-56 mt-3 drop-shadow font-serif text-xs" placeholder="Enter A Password"/>
                   </div>
-                  <button type="button" onClick={handleLogin} class="bg-indigo-500 ml-11 mt-8 block p-3 w-1/2 rounded-xl hover:bg-white hover:border hover:border-black transition-all text-white hover:text-black hover:scale-95 hover:drop-shadow-2xl">Submit</button>
+                  <button type="button" onClick={(e)=>handelSubmit()} class="bg-indigo-500 ml-11 mt-8 block p-3 w-1/2 rounded-xl hover:bg-white hover:border hover:border-black transition-all text-white hover:text-black hover:scale-95 hover:drop-shadow-2xl">Submit</button>
                  </form>
               </div>
           </div>

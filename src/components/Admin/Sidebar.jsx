@@ -1,8 +1,19 @@
 /* eslint-disable no-undef */
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { useDispatch } from 'react-redux';
+import { NavLink, useNavigate } from 'react-router-dom'
+import { logout } from '../../redux/authSlice ';
 
 function Sidebar() {
+   const dispatch = useDispatch();
+   const navigate = useNavigate();
+ 
+   const handleLogout = () => {
+      alert("okl")
+     dispatch(logout());
+     localStorage.removeItem("adminToken"); // If you're storing token
+     navigate("/login"); // Redirect to login page
+   };
    return (
       <div className='w-auto h-screen overflow-auto bg-gray-50 dark:bg-gray-800'>
          <h1 class="uppercase tracking-widest text-2xl text-white text-center mt-6 font-bold xl:text-2xl hidden md:block group-hover:block">admin </h1>
@@ -136,7 +147,7 @@ function Sidebar() {
                   </NavLink>
                </li>
                <li>
-                  <NavLink to="/ManageStaff" className={({ isActive }) => `mt-2 flex p-2 rounded-lg group ${isActive
+                  <NavLink to="ManageStaff" className={({ isActive }) => `mt-2 flex p-2 rounded-lg group ${isActive
                      ? 'bg-gray-200 dark:bg-blue-600  dark:text-white'
                      : 'text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'
                      }`
@@ -252,18 +263,18 @@ function Sidebar() {
                      <span class="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">3</span>
                   </NavLink>
                </li>
-               <li>
-                  <NavLink to="/LogOut" className={({ isActive }) => `mt-2 flex p-2 rounded-lg group ${isActive
+               <li onClick={(e)=>handleLogout()} className='mt-2 flex p-2 rounded-lg group focus:bg-gray-200 focus:dark:bg-blue-600 cursor-pointer dark:text-white'>
+                  {/* <NavLink className={({ isActive }) => `mt-2 flex p-2 rounded-lg group ${isActive
                      ? 'bg-gray-200 dark:bg-blue-600  dark:text-white'
                      : 'text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'
                      }`
                   }
-                  >
+                  > */}
                      <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3" />
                      </svg>
                      <span class="flex-1 ms-3 whitespace-nowrap hidden md:block group-hover:block">Log Out</span>
-                  </NavLink>
+                  {/* </NavLink> */}
                </li>
             </ul>
          </div>

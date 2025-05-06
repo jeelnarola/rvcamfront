@@ -3,36 +3,26 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux';
 import CourseMange from './CourseMange';
 import { useLocation, useNavigate } from 'react-router-dom';
+import API from '../../API';
 
 function Course() {
     const location = useLocation();
     const id = location?.state?.id._id;
-    console.log(id);
-
-
     const [course, setCourse] = useState("")
     const navigate = useNavigate();
     const state = useSelector((state) => state.auth?.user);
-    console.log("Token",state.token);
-    
+
     const handleCourse = async (e) => {
         if (e.target.value === "Update Course") {
-            alert("up")
             try {
-                const res = await axios.patch(`https://rvcam-production.up.railway.app/api/course/update/${id}`, {
+                const res = await axios.patch(`${API.fixAPI}/api/course/update/${id}`, {
                     courseName: course
                 }, {
                     headers: {
-                        'authorization': `Bearer ${state.token}`,
+                        'authorization': `Bearer ${state.data.token}`,
                         'Content-Type': 'application/json'
                     }
                 });
-
-                
-
-                // const { token } = res.data;
-                console.log("data", res.data)
-
                 alert('Update successful');
 
             } catch (error) {
@@ -46,18 +36,14 @@ function Course() {
             }
         } else {
             try {
-                const res = await axios.post('https://rvcam-production.up.railway.app/api/course/add', {
+                const res = await axios.post(`${API.fixAPI}/api/course/add`, {
                     courseName: course
                 }, {
                     headers: {
-                        'authorization': `Bearer ${state.token}`,
+                        'authorization': `Bearer ${state.data.token}`,
                         'Content-Type': 'application/json'
                     }
                 });
-
-                // const { token } = res.data;
-                console.log("data", res.data)
-
                 alert('Login successful');
 
             } catch (error) {
