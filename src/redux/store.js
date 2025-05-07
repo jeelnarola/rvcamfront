@@ -3,6 +3,7 @@ import authReducer from "./authSlice ";
 import courseReducer from "./courseSlice";
 import subjectReducer from "./subjectSlice";
 import postReducer from './postAPI'
+import patchReducer from './patchAPI'
 
 import {
     persistReducer,
@@ -26,7 +27,8 @@ import {
     auth:authReducer,
     course:courseReducer,
     subject:subjectReducer,
-    post:postReducer
+    post:postReducer,
+    patch:patchReducer
     // post:postSlice
   })
   

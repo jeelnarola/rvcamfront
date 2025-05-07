@@ -6,21 +6,24 @@ import { fetchSubject } from '../../redux/authSlice ';
 import { feSubject, Subject } from '../../redux/subjectSlice';
 import { PostAPI } from '../../redux/postAPI';
 import { useLocation } from 'react-router-dom';
+import { PatchAPI } from '../../redux/patchAPI';
 
 function AddStaff() {
   const location = useLocation();
   // const id = location?.state.id || null;
   let id = location?.state;
   // const data = id || null;
+  console.log("divi",id?.id.gender);
+  
   const [staffData, setStaffData] = useState({
     "name":id?.id?.name || '',
     "password": id?.id?.name || '',
     "email": id?.id.email || '',
     "mobileNumber":id?.id.mobileNumber ||  '',
-    "role": id?.id.name ||  '',
+    "role": "Faculty",
     "gender": id?.id.gender ||  '',
     "address": id?.id.address ||  '',
-    "dob": id?.id.dob.split("-").reverse().join("-") ||  '',
+    "dob": id?.id.dob ||  '',
     "courseId": id?.id?.courseId?._id ||  '',
     "division": id?.id.division ||  [],
     "semester": id?.id.semester ||  [],
@@ -54,7 +57,9 @@ function AddStaff() {
     try {;
       if (e.target.value === "Update Course") {
         try {
-          setStaffData({ ...staffData, name: "e.target.value" })
+          // console.log("staffData",id.id._id);
+          await dispatch(PatchAPI({...staffData, token, URL: `/api/user/updateSF/${id.id._id}` })).unwrap();
+          // setStaffData({ ...staffData, name: e.target.value })
           alert('Update successful');
           
         } catch (error) {
@@ -96,7 +101,7 @@ function AddStaff() {
                 <h4 class="text-blue-600 font-bold lg:text-xl">College Management System</h4>
               </div>
             </div>
-            <div id="showHideCourse" >
+            <div>
               <div class="w-11/12 m-2 mx-auto mt-7 bg-white drop-shadow-md pb-5">
                 <div class="bg-black p-2">
                   <h1 class="text-white font-semibold tracking-widest uppercase" id="addSubject">Add Staff</h1>
@@ -107,12 +112,15 @@ function AddStaff() {
                     <input type="text" class="border border-black px-4 mb-4" id="name" name="name" value={staffData.name} onChange={(e) => setStaffData({ ...staffData, name: e.target.value })} />
                     <label for="" class="block text-gray-700 font-medium mb-2">Email :</label>
                     <input type="email" class="border border-black px-4 mb-4" id="email" name="email" value={staffData.email} onChange={(e) => setStaffData({ ...staffData, email: e.target.value })} />
+                    <label for="" class="block text-gray-700 font-medium mb-2">Password :</label>
+                    <input type="password" class="border border-black px-4 mb-4" id="password" name="password" value={staffData.password} onChange={(e) => setStaffData({ ...staffData, password: e.target.value })} />
+                    
                     <label for="" class=" text-gray-700 font-medium mb-2">Phone No :</label>
                     <input type="number" maxlength="10" minlength="10" class="border border-black px-4 mb-4" id="phone" name="phoneNo" value={staffData.mobileNumber} onChange={(e) => setStaffData({ ...staffData, mobileNumber: Number(e.target.value) })} />
                     <div className='mb-5'>
                       <label for="" class="text-gray-700 font-medium mb-2 mr-4">Gender :</label>
-                      <input type="radio" name="gender" class="gender" value="Male" onChange={(e) => setStaffData({ ...staffData, gender: e.target.value })} /><label for="" class="m-2">Male</label>
-                      <input type="radio" name="gender" class="gender" value="Female" onChange={(e) => setStaffData({ ...staffData, gender: e.target.value })} /><label for="" class="m-2">Female</label>
+                      <input type="radio" name="gender" class="gender" value="Male" checked={staffData.gender === "Male"} onChange={(e) => setStaffData({ ...staffData, gender: e.target.value })} /><label for="" class="m-2">Male</label>
+                      <input type="radio" name="gender" class="gender" value="Female" checked={staffData.gender === "Female"} onChange={(e) => setStaffData({ ...staffData, gender: e.target.value })} /><label for="" class="m-2">Female</label>
                     </div>
                     <div className="mb-4">
                       <label className="block text-gray-700 font-medium mb-2">Address:</label>
@@ -121,7 +129,7 @@ function AddStaff() {
                           type="text"
                           placeholder="Street"
                           className="border border-black p-2 w-1/3"
-                          // value={staffData.address.split(',')[0]?.trim() || ''}
+                          value={staffData.address.split(',')[0]?.trim() || ''}
                           onChange={(e) => {
                             const parts = staffData.address.split(',');
                             parts[0] = e.target.value;
@@ -132,7 +140,7 @@ function AddStaff() {
                           type="text"
                           placeholder="Area"
                           className="border border-black p-2 w-1/3"
-                          // value={staffData.address.split(',')[1]?.trim() || ''}
+                          value={staffData.address.split(',')[1]?.trim() || ''}
                           onChange={(e) => {
                             const parts = staffData.address.split(',');
                             parts[1] = e.target.value;
@@ -143,7 +151,7 @@ function AddStaff() {
                           type="text"
                           placeholder="City"
                           className="border border-black p-2 w-1/3"
-                          // value={staffData.address.split(',')[2]?.trim() || ''}
+                          value={staffData.address.split(',')[2]?.trim() || ''}
                           onChange={(e) => {
                             const parts = staffData.address.split(',');
                             parts[2] = e.target.value;
@@ -154,7 +162,7 @@ function AddStaff() {
                           type="text"
                           placeholder="Zip Code"
                           className="border border-black p-2 w-1/3"
-                          // value={staffData.address.split(',')[3]?.trim() || ''}
+                          value={staffData.address.split(',')[3]?.trim() || ''}
                           onChange={(e) => {
                             const parts = staffData.address.split(',');
                             parts[3] = e.target.value;
@@ -191,7 +199,7 @@ function AddStaff() {
                       <select
                         multiple
                         className="border border-gray-400 rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        value={staffData.division}
+                        value={staffData.division?.map(s => typeof s === "object" ? s._id : s) || []}
                         onChange={(e) => {
                           const selectedDivisions = Array.from(e.target.selectedOptions, option => option.value);
                           setStaffData({ ...staffData, division: selectedDivisions });
@@ -209,8 +217,9 @@ function AddStaff() {
                     <select name="" onChange={(e) => {
                       const selectedDivisions = Array.from(e.target.selectedOptions, option => option.value);
                       setStaffData({ ...staffData, subjects: selectedDivisions });
-                    }} value={staffData.subjects} multiple class="border border-gray-400 rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" id="DropDwon">
+                    }}   value={staffData.subjects?.map(s => typeof s === "object" ? s._id : s) || []} multiple class="border border-gray-400 rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" id="DropDwon">
                       {
+                        
                         subjectData && subjectData.map((ele) => {
                           return <option value={ele._id}>{ele.name}</option>
 
@@ -229,7 +238,7 @@ function AddStaff() {
                     <select name="" multiple onChange={(e) => {
                       const selectedDivisions = Array.from(e.target.selectedOptions, option => option.value);
                       setStaffData({ ...staffData, semester: selectedDivisions });
-                    }} value={staffData.semester} class="border border-gray-400 rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" id="DropDwon">
+                    }}  value={staffData.semester?.map(s => typeof s === "object" ? s._id : s) || []} class="border border-gray-400 rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" id="DropDwon">
 
                       <option value="sem1">Sem 1</option>
                       <option value="sem2">Sem 2</option>
