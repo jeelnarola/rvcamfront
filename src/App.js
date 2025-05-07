@@ -15,6 +15,7 @@ import CourseMange from './components/Admin/CourseMange';
 import Page404 from './components/Page404';
 import SubjectManage from './components/Admin/SubjectManage';
 import ManageStaff from './components/Admin/ManageStaff';
+import AddStudent from './components/Admin/AddStudent';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
         <Route path="SubjectManage" element={<SubjectManage />} />
         <Route path="AddStaff" element={<AddStaff />} />
         <Route path="ManageStaff" element={<ManageStaff />} />
+        <Route path="AddStudent" element={<AddStudent />} />
         <Route path="*" element={<Page404 />} />
       </Route>
     </Route>
