@@ -6,7 +6,8 @@ export const PatchAPI = createAsyncThunk(
     "PatchAPI",
     async (credentialsWithToken, thunkAPI) => {
         const { token, URL,...credentials } = credentialsWithToken;
-     
+        console.log("URL :",credentials);
+        
       try {
         const response = await axios.patch(`${API.fixAPI}${URL}`, credentials,{
             headers: {

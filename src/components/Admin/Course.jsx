@@ -24,7 +24,6 @@ function Course() {
                     }
                 });
                 alert('Update successful');
-
             } catch (error) {
                 if (error.response) {
                     console.error('Server Error:', error.response.data);
@@ -62,7 +61,6 @@ function Course() {
         <>
             <section>
                 <div class="w-full flex flex-nowrap">
-                    {/* <div id="AdminHeader" class="w-1/5 h-screen overflow-auto bg-gray-50 dark:bg-gray-800"></div> */}
                     <div class="w-full">
                         <div class=" bg-white drop-shadow-md">
                             <div class="p-5 flex justify-between">

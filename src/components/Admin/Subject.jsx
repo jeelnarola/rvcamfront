@@ -26,8 +26,6 @@ function Subject() {
         }
       });
       setData(prev => [...res.data.data]);
-
-      // https://rvcam.onrender.com/api/course/show
     } catch (error) {
       if (error.response) {
         console.error('Server Error:', error.response.data);
@@ -68,7 +66,6 @@ function Subject() {
     <div>
       <section>
         <div class="w-full flex flex-nowrap ">
-          {/* <div id="AdminHeader" class="w-1/5 h-screen overflow-auto bg-gray-50 dark:bg-gray-800"></div> */}
           <div class="w-full">
           <div class=" bg-white drop-shadow-md">
                             <div class="p-5 flex justify-between">
@@ -92,7 +89,6 @@ function Subject() {
                     <label for="" class="mb-2">Course Name :</label>
                     <select name="courseId" class="border border-black p-1 mb-4" id="DropDwon" value={formData.courseId}   onChange={(e) => setFormData({ ...formData, courseId: e.target.value })}>
                     <option value=""></option>
-
                       {
                         data && data.map((ele)=>{
                           return <option value={ele._id}>{ele.courseName}</option>
@@ -108,7 +104,6 @@ function Subject() {
                     <input disabled type="text" class="border border-black px-4 mb-4 p-1" id="subjectName" name="facultyId" value={formData.facultyId}  onChange={(e) => setFormData({ ...formData, facultyId: e.target.value })}/>
                     <label for="" class="mb-2">semester :</label>
                     <input type="text" class="border border-black px-4 mb-4 p-1" id="subjectName" name="semester" value={formData.semester}  onChange={(e) => setFormData({ ...formData, semester: e.target.value })}/>
-                    
                     <input type="submit" onClick={()=>handleSubject()} value="Add Subject" class="bg-blue-600 p-3 rounded-sm block mx-auto text-white hover:border hover:border-black hover:bg-transparent  hover:text-black hover:drop-shadow-2xl transition-all cursor-pointer mt-6" id="addCoursebtn" />
                   </div>
                 </form>

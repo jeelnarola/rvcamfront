@@ -4,6 +4,7 @@ import courseReducer from "./courseSlice";
 import subjectReducer from "./subjectSlice";
 import postReducer from './postAPI'
 import patchReducer from './patchAPI'
+import getReducer from './getAPI'
 
 import {
     persistReducer,
@@ -28,7 +29,8 @@ import {
     course:courseReducer,
     subject:subjectReducer,
     post:postReducer,
-    patch:patchReducer
+    patch:patchReducer,
+    get:getReducer
     // post:postSlice
   })
   

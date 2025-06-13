@@ -10,7 +10,6 @@ import { fetchSubject } from '../../redux/authSlice '
 function SubjectManage() {
     const [data, setData] = useState([])
     const state = useSelector((state) => state.auth?.user);
-   
     const navigate = useNavigate()
     
     const getSubject = async () => {
@@ -35,12 +34,10 @@ function SubjectManage() {
     useEffect(() => {
         getSubject()
     }, [])
-
     return (
         <div>
             <section>
                 <div class="w-full flex flex-nowrap">
-                    {/* <div id="AdminHeader" class="w-1/5 h-screen overflow-auto bg-gray-50 dark:bg-gray-800"></div> */}
                     <div class="w-full">
                         <div class=" bg-white drop-shadow-md">
                             <div class="p-5 flex justify-between">
@@ -72,9 +69,7 @@ function SubjectManage() {
                                     </thead>
                                     <tbody className=''>
                                         {
-
                                             data.map((ele, i) => {
-                                               
                                                 return <tr>
                                                     <td className="border border-gray-300 w-[1%] px-2">
                                                         <input type="checkbox" className=''/>
@@ -119,8 +114,6 @@ function SubjectManage() {
                                                         </tr>
                                                     </td>
                                                 </tr>
-                                                //    })
-
                                             })
                                         }
                                     </tbody>

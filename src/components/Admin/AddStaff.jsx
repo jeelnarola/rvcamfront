@@ -10,11 +10,7 @@ import { PatchAPI } from '../../redux/patchAPI';
 
 function AddStaff() {
   const location = useLocation();
-  // const id = location?.state.id || null;
   let id = location?.state;
-  // const data = id || null;
-  console.log("divi",id?.id.gender);
-  
   const [staffData, setStaffData] = useState({
     "name":id?.id?.name || '',
     "password": id?.id?.name || '',
@@ -38,7 +34,6 @@ function AddStaff() {
   const token = state.auth.user.data.token;
 
   useEffect(() => {
-    // dispatch(fetchCourse({token:state1.user.data.token}));
     if (token) {
       dispatch(fetchCourse({ token })).unwrap();
       dispatch(feSubject({ token })).unwrap();
@@ -57,11 +52,8 @@ function AddStaff() {
     try {;
       if (e.target.value === "Update Course") {
         try {
-          // console.log("staffData",id.id._id);
           await dispatch(PatchAPI({...staffData, token, URL: `/api/user/updateSF/${id.id._id}` })).unwrap();
-          // setStaffData({ ...staffData, name: e.target.value })
           alert('Update successful');
-          
         } catch (error) {
             if (error.response) {
                 console.error('Server Error:', error.response.data);
@@ -219,16 +211,13 @@ function AddStaff() {
                       setStaffData({ ...staffData, subjects: selectedDivisions });
                     }}   value={staffData.subjects?.map(s => typeof s === "object" ? s._id : s) || []} multiple class="border border-gray-400 rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" id="DropDwon">
                       {
-                        
                         subjectData && subjectData.map((ele) => {
                           return <option value={ele._id}>{ele.name}</option>
-
                         })
                       }
                     </select>
                     <label for="" class="mb-2 mt-5">HOD  :</label>
                     <select name="" class="border border-gray-400 rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" id="DropDwon">
-
                       <option value="">Me</option>
                       <option value="">Me2</option>
                       <option value="">Me3</option>
@@ -239,7 +228,6 @@ function AddStaff() {
                       const selectedDivisions = Array.from(e.target.selectedOptions, option => option.value);
                       setStaffData({ ...staffData, semester: selectedDivisions });
                     }}  value={staffData.semester?.map(s => typeof s === "object" ? s._id : s) || []} class="border border-gray-400 rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" id="DropDwon">
-
                       <option value="sem1">Sem 1</option>
                       <option value="sem2">Sem 2</option>
                       <option value="sem3">Sem 3</option>
@@ -248,7 +236,6 @@ function AddStaff() {
                       <option value="sem6">Sem 6</option>
                     </select>
                     <input type="submit" onClick={handelStaff} value={!id ? 'Add Course' : "Update Course"} class="bg-blue-600 p-3 rounded-sm block mx-auto text-white hover:border hover:border-black hover:bg-transparent  hover:text-black hover:drop-shadow-2xl transition-all cursor-pointer mt-6" id="addCoursebtn" />
-
                   </div>
                 </form>
               </div>
