@@ -34,20 +34,6 @@ function Profile() {
     </div>
   );
 };
-
-// const InfoRow = ({ label, value }) => {
-//   const formattedValue = Array.isArray(value)
-//     ? value.join(", ")
-//     : value || "-";
-
-//   return (
-//     <div className="flex justify-between">
-//       <span className="font-medium">{label}:</span>
-//       <span className="text-right max-w-[70%] break-words">{formattedValue}</span>
-//     </div>
-//   );
-// };
-
 const InfoRow = ({ label, value }) => (
   <div className="flex gap-2 p-2">
     <span className="w-28 font-medium text-xl">{label}</span>

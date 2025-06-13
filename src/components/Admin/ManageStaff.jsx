@@ -16,9 +16,7 @@ function ManageStaff() {
     const [checkedRows, setCheckedRows] = useState({});
     const [CheckedId, setCheckedId] = useState([]);
     const checkedCount = Object.values(checkedRows).filter(Boolean).length;
-
     const navigate = useNavigate()
-
     const getSubject = async () => {
         try {
             const res = await axios.get(`${API.fixAPI}/api/user/getSF/`, {
@@ -26,14 +24,10 @@ function ManageStaff() {
                     'Authorization': `Bearer ${state.data.token}`,
                     'Content-Type': 'application/json'
                 }, params: {
-                    role: ['Admin', 'Faculty'] // <-- This adds ?role=faculty to the URL
+                    role: ['Admin', 'Faculty'] 
                 }
             });
-            console.log("res", res);
-
             setData(prev => [...res.data.data]);
-            console.log("data",data);
-            
         } catch (error) {
             if (error.response) {
                 console.error('Server Error:', error.response.data);
@@ -56,8 +50,6 @@ function ManageStaff() {
     }
     const deletestaff = async (ele) => {
         const idFilter = CheckedId.filter((id) => id === ele)
-
-
         if (idFilter.length === 0) {
             try {
                 const res = await axios.delete(`${API.fixAPI}/api/user/deleteSF`, {
@@ -67,8 +59,6 @@ function ManageStaff() {
                         'Content-Type': 'application/json'
                     }
                 });
-
-                // getCourse()
                 alert('Login successful');
             } catch (error) {
                 if (error.response) {
@@ -88,7 +78,6 @@ function ManageStaff() {
                         'Content-Type': 'application/json'
                     }
                 });
-                // getCourse()
                 alert('Login successful');
             } catch (error) {
                 if (error.response) {
@@ -114,7 +103,6 @@ function ManageStaff() {
         <div>
             <section>
                 <div class="w-full flex flex-nowrap">
-                    {/* <div id="AdminHeader" class="w-1/5 h-screen overflow-auto bg-gray-50 dark:bg-gray-800"></div> */}
                     <div class="w-full">
                         <div class=" bg-white drop-shadow-md">
                             <div class="p-5 flex justify-between">
@@ -151,10 +139,7 @@ function ManageStaff() {
                                     </thead>
                                     <tbody className=''>
                                         {
-
                                             data.map((ele, i) => {
-                                                // console.log(ele);
-                                                
                                                 const isChecked = CheckedId.includes(ele._id) || false;
                                                 return <tr>
                                                     <td className="border border-gray-300 w-[1%] px-2">
@@ -214,8 +199,6 @@ function ManageStaff() {
                                                         </tr>
                                                     </td>
                                                 </tr>
-                                                //    })
-
                                             })
                                         }
                                         
@@ -240,11 +223,7 @@ function ManageStaff() {
             </section>
             {showPopup && (
                 <StaffDetails title="details" data={popupData} onClose={() => setShowPopup(false)}/>
-                // <SataffD title="Welcome!" onClose={() => setShowPopup(false)}>
-                //     <p>This is a reusable popup component.</p>
-                // </showPopup>
             )}
-            
         </div>
     )
 }

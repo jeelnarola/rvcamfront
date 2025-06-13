@@ -20,10 +20,7 @@ function CourseMange() {
                     'Content-Type': 'application/json'
                 }
             });
-
             setData(prev => [...res.data.data]);
-
-            // https://rvcam.onrender.com/api/course/show
         } catch (error) {
             if (error.response) {
                 console.error('Server Error:', error.response.data);
@@ -44,15 +41,12 @@ function CourseMange() {
         });
 
     }
-
-
     useEffect(() => {
         getCourse()
     }, [CheckedId])
 
     const couserdelete = async (ele) => {
         const idFilter = CheckedId.filter((id) => id === ele)
-
         if (idFilter.length === 0) {
             try {
                 const res = await axios.delete(`${API.fixAPI}/api/course/delete`, {
@@ -62,7 +56,6 @@ function CourseMange() {
                         'Content-Type': 'application/json'
                     }
                 });
-
                 getCourse()
                 alert('Login successful');
             } catch (error) {
@@ -95,14 +88,11 @@ function CourseMange() {
                 }
             }
         }
-
-
     }
     return (
         <div>
             <section>
                 <div class="w-full flex flex-nowrap">
-                    {/* <div id="AdminHeader" class="w-1/5 h-screen overflow-auto bg-gray-50 dark:bg-gray-800"></div> */}
                     <div class="w-full">
                         <div class=" bg-white drop-shadow-md">
                             <div class="p-5 flex justify-between">
@@ -130,17 +120,14 @@ function CourseMange() {
                                     </thead>
                                     <tbody className=''>
                                         {
-
                                             data.map((ele, i) => {
                                                 const isChecked = CheckedId.includes(ele._id) || false;
-                                                //    ele.map((el)=>{
                                                 return <tr>
                                                     <td className="border border-gray-300 w-[1%] px-2">
                                                         <input type="checkbox" className='' checked={CheckedId.includes(ele._id)}
                                                             onChange={(e) => {
                                                                 checkbox(e, i, ele._id)
                                                             }
-
                                                             } />
                                                     </td>
                                                     <td className="border border-gray-300 w-[20%] px-2">{i + 1}</td>
@@ -165,13 +152,10 @@ function CourseMange() {
                                                                         <p>Remove</p>
                                                                     </button>
                                                                 </div>
-
                                                             </td>
                                                         </tr>
                                                     </td>
                                                 </tr>
-                                                //    })
-
                                             })
                                         }
                                     </tbody>

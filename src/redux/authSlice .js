@@ -7,7 +7,7 @@ export const fetchSubject = createAsyncThunk(
     async (credentials, thunkAPI) => {
       try {
           console.log("res",credentials);
-        const response = await axios.post(`https://rvcam.onrender.com/api/auth/login`, credentials,{withCredentials: true});
+        const response = await axios.post(`${API.fixAPI}/api/auth/login`, credentials,{withCredentials: true});
         return response;
     } catch (error) {
         console.error("Error during login:", error);
